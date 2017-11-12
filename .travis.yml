@@ -8,6 +8,7 @@ before_script:
  - cp .env .env.travis
  - composer self-update
  - composer install -n
+ - php artisan key:generate
 
 before_install:
  - mysql -e 'CREATE DATABASE nigel;'
