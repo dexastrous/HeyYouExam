@@ -17,4 +17,4 @@ services:
  - mysql
 
 script:
- - vendor/bin/phpunit
+ - phpunit
