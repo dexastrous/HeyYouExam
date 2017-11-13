@@ -26,8 +26,8 @@ class RobotRequest extends FormRequest
         return [
             'x' => 'Required | Integer | Min:0',
             'y' => 'Required | Integer | Min:0',            
-            'heading' => 'Required | Max:1',
-            'commands' => 'Required'                
+            'heading' => 'Required | Max:1 | Regex:/^[nsewNSEW]*$/',
+            'commands' => 'Required | Regex:/^[lrmLRM]*$/'                
         ];
     }
 }
