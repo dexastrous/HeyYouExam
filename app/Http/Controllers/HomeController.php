@@ -129,7 +129,6 @@ class HomeController extends Controller
         return back();
     }
 
-
     public function robot_destroy($id, $rid)
     {
         $robot = Robot::findorfail($rid);
@@ -140,12 +139,34 @@ class HomeController extends Controller
         return back();
     }
 
+    private function robot_update($status, $result)
+    {
+        $flat_status = collect($status)->flatten();
+
+        if ($flat_status->contains('Collision') || $flat_status->contains('Out of bounce'))
+        {
+            Session::flash('robots-updated', false);
+        }else{
+            $result->each(function($robot){                
+                $value = explode(' ',end($robot['movements']));
+                $robot = Robot::findorfail($robot['id']);
+                $robot->update([
+                    'x_pos' => $value[0],
+                    'y_pos' => $value[1],
+                    'heading' => $value[2]
+                ]);
+            });
+            Session::flash('robots-updated', true);
+        }
+    }
 
     public function execute($id)
     {
     	$shop = Shop::with('robots')->findorfail($id);
         $result = $shop->getSimulationResult();
         $status = $shop->getSimulationStatus($result);
+
+        $this->robot_update($status, $result);
 
         Session::flash('simulation-result', $result);
         Session::flash('simulation-status', $status);

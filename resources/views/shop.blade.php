@@ -139,6 +139,18 @@
             </form>
             @endif
 
+            @if (Session::has('robots-updated') && Session::get('robots-updated') == true)
+                <div class="alert alert-success alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                    Successfully updated new position of robots
+                </div>
+            @elseif (Session::has('robots-updated') && Session::get('robots-udpated') == false)
+                <div class="alert alert-danger alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                    Simulation Error Found
+                </div>            
+            @endif
+
             @if( Session::has('simulation-result') )
             <strong>Simulation Result:</strong><br>
             <table class="table table-bordered" id="result">
@@ -161,7 +173,7 @@
                     <td>
                         <ul class="list-group">
                             @foreach(Session::get('simulation-status') as $status)
-                            <li class="list-group-item">{{ $status }}</li>
+                            <li class="list-group-item">{{ implode(', ', $status) }}</li>
                             @endforeach
                         </ul>
                     </td>                                

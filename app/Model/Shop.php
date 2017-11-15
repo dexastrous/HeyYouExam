@@ -52,6 +52,7 @@ class Shop extends Model
             }
                 
             return [
+                'id' => $robot->id,
             	'robot' => $robot->name,
                 'headings' => $headings,
                 'grid_pos' => $grid_pos,
@@ -119,7 +120,7 @@ class Shop extends Model
             $message->push('Out of bounce');            
         }
 
-        return $message->implode(',');        
+        return $message->toArray();        
     }
 
 }
